@@ -1,5 +1,5 @@
 // Import necessary components from React Native and other files
-import { View, Text, StyleSheet, Alert, FlatList } from "react-native";
+import { View, StyleSheet, Alert, FlatList } from "react-native";
 import { useState, useEffect } from "react";
 import { Ionicons } from "@expo/vector-icons";
 import Title from "../componenets/Title";
@@ -8,6 +8,7 @@ import NumberContainer from "../componenets/NumberContainer";
 import Card from "../componenets/Card";
 import Colors from "../componenets/constants/color";
 import InstructionText from "../componenets/InstructionText";
+import GuessLogItem from "../componenets/GuessLogItem";
 
 // If the generated number is the excluded number, call the function again to generate a new number
 function generateRandomBetween(min, max, exclude) {
@@ -37,7 +38,7 @@ export default function GameScreen({ userNumber, onGameOver }) {
   // Use the useEffect hook to check if the game is over
   useEffect(() => {
     if (currentGuess === parseInt(userNumber)) {
-      onGameOver();
+      onGameOver(guessRounds.length);
     }
   }, [currentGuess, userNumber, onGameOver]);
 
@@ -76,6 +77,7 @@ export default function GameScreen({ userNumber, onGameOver }) {
     setGuessRounds((prev) => [newRndNumber, ...prev]);
   }
 
+  const guessRoundsListLenght = guessRounds.length;
   // Render the game screen with the opponent's guess and buttons to indicate whether the user's number is higher or lower
   return (
     <View style={styles.GameScreen}>
@@ -95,13 +97,15 @@ export default function GameScreen({ userNumber, onGameOver }) {
           />
         </View>
       </Card>
-      <View>
-        {/* guessRounds.map((item, index) => (
-          <Text key={index}>{item}</Text>
-        )) */}
+      <View style={styles.listContainer}>
         <FlatList
           data={guessRounds}
-          renderItem={(itemData) => <Text>{itemData.item}</Text>}
+          renderItem={(itemData) => (
+            <GuessLogItem
+              roundNumber={guessRoundsListLenght - itemData.index}
+              guess={itemData.item}
+            />
+          )}
           keyExtractor={(item) => item}
         />
       </View>
@@ -133,5 +137,10 @@ const styles = StyleSheet.create({
     justifyContent: "space-between",
     width: 350,
     padding: 30,
+  },
+
+  listContainer: {
+    flex: 1,
+    padding: 16,
   },
 });

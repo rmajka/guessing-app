@@ -31,8 +31,9 @@ export default function App() {
     SplashScreen.hideAsync();
   }
 
-  function gameOverHandler() {
+  function gameOverHandler(numberOfRounds) {
     setGameIsOver(true);
+    setGuessRounds(numberOfRounds);
   }
 
   function pickedNumber(pickedNumber) {
@@ -70,7 +71,7 @@ export default function App() {
       style={styles.AppContainer}
     >
       <ImageBackground
-        source={require("../starting-project/assets/images/dices.jpg")}
+        source={require("../guessing-app/assets/images/dices.jpg")}
         resizeMode="cover"
         style={styles.AppContainer}
         imageStyle={styles.backgroundImage}
