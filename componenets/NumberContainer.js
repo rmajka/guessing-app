@@ -9,7 +9,7 @@ export default function NumberContainer({ children }) {
   );
 }
 
-const deviceWidth = Dimensions.get("window").width;
+const deviceWidth = Dimensions.get("window").width; //get device width (window means without topbar)
 
 const styles = StyleSheet.create({
   container: {
